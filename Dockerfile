@@ -6,4 +6,4 @@ RUN pip install requests
 
 COPY . .
 
-CMD [ "python", "./wrapper.py" ]
+CMD [ "python", "./app.py" ]
