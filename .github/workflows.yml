@@ -1,0 +1,33 @@
+name: Docker Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+jobs:
+  build-and-publish:
+    name: Build and Publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Build Docker image
+        run: docker build -t sarahhabbi/efrei-devops-tp2:latest .
+        
+      - name: Login to Docker Hub
+        run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+        
+      - name: Push Docker image to Docker Hub
+        run: docker push sarahhabbi/efrei-devops-tp2:latest
+        
+      - name: Publish to Github
+        uses: actions/upload-artifact@v2
+        with:
+          name: code
+          path: .
